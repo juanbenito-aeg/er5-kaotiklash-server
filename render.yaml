@@ -1,0 +1,25 @@
+services:
+  - name: laravel-app
+    type: web
+    runtime: docker
+    repo: https://github.com/DumitruDaniel-AEG/er5-kaotiklash-server
+    plan: free
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        sync: false
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase: postgres
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        fromDatabase: postgres
+      - key: DB_USERNAME
+        fromDatabase: postgres
+      - key: DB_PASSWORD
+        fromDatabase: postgres
