@@ -17,4 +17,4 @@ Route::apiResource("weapons", WeaponController::class);
 Route::apiResource("rare-events", RareEventController::class);
 Route::apiResource("special-events", SpecialEventController::class);
 Route::apiResource("main-characters", MainCharacterController::class);
-Route::apiResource("chaotic-events", JosephChaoticEventController::class);
+Route::apiResource("joseph-chaotic-events", JosephChaoticEventController::class);

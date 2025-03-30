@@ -19,6 +19,7 @@ class PlayerController extends Controller
             'email_address' => 'required|string|email|max:254|unique:players,email_address',
             'password' => 'required|string|min:6',
         ]);
+        
         return Player::create($request->all());
     }
 

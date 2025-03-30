@@ -28,7 +28,7 @@ class MinionController extends Controller
      */
     public function show(string $id)
     {
-        return Minion::with("minion_categories")->findOrFail($id);
+        return Minion::with("category")->findOrFail($id);
     }
 
     /**

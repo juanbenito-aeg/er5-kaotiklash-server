@@ -9,9 +9,10 @@ class Player extends Model
     protected $table = "players";
     protected $primaryKey = "player_id";
     public $timestamps = false;
+
     protected $fillable = [
-        'name',
-        'email_address',
-        'password',
+        "name",
+        "email_address",
+        "password",
     ];
 }

@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class MainCharacter extends Model
 {
     protected $table = "main_characters";
-    protected $primaryKey = "main_characters_id";
+    protected $primaryKey = "main_character_id";
     public $timestamps = false;
 
     public function chaoticEvents(): HasMany
     {
-        return $this->hasMany(JosephChaoticEvent::class, "main_characters_id");
+        return $this->hasMany(JosephChaoticEvent::class, "main_character_id");
     }
 }

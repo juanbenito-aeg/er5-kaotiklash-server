@@ -11,7 +11,7 @@ class ArmorType extends Model
     protected $primaryKey = "id";
     public $timestamps = false;
 
-    public function armors(): HasMany
+    public function armor(): HasMany
     {
         return $this->hasMany(Armor::class, "type_id", "id");
     }
