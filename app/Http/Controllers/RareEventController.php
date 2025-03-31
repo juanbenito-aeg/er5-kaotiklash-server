@@ -9,7 +9,7 @@ class RareEventController extends Controller
 {
     public function index()
     {
-        return RareEvent::all();
+        return RareEvent::orderBy("rare_event_id", "asc")->get();
     }
 
     public function store(Request $request)

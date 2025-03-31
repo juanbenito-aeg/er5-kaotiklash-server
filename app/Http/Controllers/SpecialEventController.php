@@ -9,7 +9,7 @@ class SpecialEventController extends Controller
 {
     public function index()
     {
-        return SpecialEvent::all();
+        return SpecialEvent::orderBy("special_event_id", "asc")->get();
     }
 
     public function store(Request $request)

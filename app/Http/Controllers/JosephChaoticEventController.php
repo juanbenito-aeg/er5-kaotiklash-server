@@ -9,7 +9,7 @@ class JosephChaoticEventController extends Controller
 {
     public function index()
     {
-        return JosephChaoticEvent::with("mainCharacter")->get();
+        return JosephChaoticEvent::with("mainCharacter")->orderBy("joseph_chaotic_event_id", "asc")->get();
     }
 
     public function store(Request $request)

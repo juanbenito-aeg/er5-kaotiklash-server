@@ -9,7 +9,7 @@ class WeaponController extends Controller
 {
     public function index()
     {
-        return Weapon::with("type")->get();
+        return Weapon::with("type")->orderBy("id", "asc")->get();
     }
 
     public function store(Request $request)
