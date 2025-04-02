@@ -11,8 +11,8 @@ class MainCharacter extends Model
     protected $primaryKey = "main_character_id";
     public $timestamps = false;
 
-    public function chaoticEvents(): HasMany
+    public function josephChaoticEvents(): HasMany
     {
-        return $this->hasMany(JosephChaoticEvent::class, "main_character_id");
+        return $this->hasMany(JosephChaoticEvent::class, 'main_character_id', 'main_character_id');
     }
 }
