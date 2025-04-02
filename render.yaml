@@ -2,7 +2,7 @@ services:
   - name: laravel-app
     type: web
     runtime: docker
-    repo: https://github.com/DumitruDaniel-AEG/er5-kaotiklash-server
+    repo: https://github.com/juanbenito-aeg/er5-kaotiklash-server.git
     plan: free
     envVars:
       - key: APP_ENV
