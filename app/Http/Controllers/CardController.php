@@ -15,7 +15,7 @@ class CardController extends Controller
     public function index()
     {
         return response()->json([
-            'main_characters' => MainCharacter::orderBy('main_characters_id', 'asc')->get(),
+            'main_characters' => MainCharacter::orderBy('main_character_id', 'asc')->get(),
             'minions' => Minion::orderBy('minion_id', 'asc')->get(),
             'weapons' => Weapon::orderBy('id', 'asc')->get(),
             'armor' => Armor::orderBy('id', 'asc')->get(),
