@@ -22,7 +22,7 @@ class CardController extends Controller
             ->orderBy('minion_id', 'asc')->get(),
             'weapons' => Weapon::with('type')
             ->orderBy('id', 'asc')->get(),
-            'armor' => Armor::with('armor')
+            'armor' => Armor::with('type')
             ->orderBy('id', 'asc')->get(),
             'rare_events' => RareEvent::orderBy('rare_event_id', 'asc')->get(),
             'special_events' => SpecialEvent::orderBy('special_event_id', 'asc')->get(),
