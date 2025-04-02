@@ -14,12 +14,12 @@ services:
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        fromDatabase: ep-bitter-rice-a9k2owbe-pooler.gwc.azure.neon.tech
+        fromDatabase: postgres
       - key: DB_PORT
         value: 5432
       - key: DB_DATABASE
-        fromDatabase: kaotiklash
+        fromDatabase: postgres
       - key: DB_USERNAME
-        fromDatabase: kaotiklash_owner
+        fromDatabase: postgres
       - key: DB_PASSWORD
-        fromDatabase: npg_U3FVTXNytOi0
+        fromDatabase: postgres
