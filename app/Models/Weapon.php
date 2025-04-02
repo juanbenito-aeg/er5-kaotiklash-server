@@ -13,6 +13,6 @@ class Weapon extends Model
 
     public function type(): BelongsTo
     {
-        return $this->belongsTo(WeaponType::class, "type_id", "id");
+        return $this->belongsTo(WeaponType::class, "id");
     }
 }
