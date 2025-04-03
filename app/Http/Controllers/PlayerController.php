@@ -50,27 +50,20 @@ class PlayerController extends Controller
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'email_address' => 'required|string|email',
             'password' => 'required|string'
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Invalid input'], 400);
-        }
 
         $player = Player::where('email_address', $request->email_address)
         ->where('password', $request->password)
         ->first();
 
         if ($player) {
-        return response()->json([
-        'message' => 'OK',
-        'player' => $player
-        ], 200);
+            return response()->json(['message' => 'Login successful', 'player' => $player], 200);
+        } else {
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
-
-        return response()->json(['message' => 'Unauthorized'], 401);
-
     }
 }
