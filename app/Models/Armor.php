@@ -13,6 +13,6 @@ class Armor extends Model
 
     public function type(): BelongsTo
     {
-        return $this->belongsTo(ArmorType::class, "id");
+        return $this->belongsTo(ArmorType::class, "type_id", "id");
     }
 }
