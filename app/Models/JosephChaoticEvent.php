@@ -13,6 +13,6 @@ class JosephChaoticEvent extends Model
 
     public function mainCharacter(): BelongsTo
     {
-        return $this->belongsTo(MainCharacter::class, "main_character_id");
+        return $this->belongsTo(MainCharacter::class, "main_character_id", "main_character_id");
     }
 }

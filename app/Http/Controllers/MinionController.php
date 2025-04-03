@@ -12,7 +12,7 @@ class MinionController extends Controller
      */
     public function index()
     {
-        return Minion::with("category")->get();
+        return Minion::with("category")->orderBy("minion_id", "asc")->get();
     }
 
     /**

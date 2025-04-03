@@ -9,7 +9,7 @@ class ArmorController extends Controller
 {
     public function index()
     {
-        return Armor::with("type")->get();
+        return Armor::with("type")->orderBy("id", "asc")->get();
     }
 
     public function store(Request $request)

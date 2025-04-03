@@ -13,6 +13,6 @@ class ArmorType extends Model
 
     public function armor(): HasMany
     {
-        return $this->hasMany(Armor::class, "type_id", "id");
+        return $this->hasMany(Armor::class, "id", "id");
     }
 }

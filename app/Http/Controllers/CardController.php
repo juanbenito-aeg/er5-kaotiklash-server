@@ -15,10 +15,15 @@ class CardController extends Controller
     public function index()
     {
         return response()->json([
-            'main_characters' => MainCharacter::orderBy('main_characters_id', 'asc')->get(),
-            'minions' => Minion::orderBy('minion_id', 'asc')->get(),
-            'weapons' => Weapon::orderBy('id', 'asc')->get(),
-            'armor' => Armor::orderBy('id', 'asc')->get(),
+          'main_characters' => MainCharacter::with('chaoticEvents')
+            ->orderBy('main_character_id', 'asc')
+            ->get(),
+            'minions' => Minion::with('category')
+            ->orderBy('minion_id', 'asc')->get(),
+            'weapons' => Weapon::with('type')
+            ->orderBy('id', 'asc')->get(),
+            'armor' => Armor::with('type')
+            ->orderBy('id', 'asc')->get(),
             'rare_events' => RareEvent::orderBy('rare_event_id', 'asc')->get(),
             'special_events' => SpecialEvent::orderBy('special_event_id', 'asc')->get(),
         ]);

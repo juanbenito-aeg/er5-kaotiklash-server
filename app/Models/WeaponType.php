@@ -13,6 +13,6 @@ class WeaponType extends Model
 
     public function weapons(): HasMany
     {
-        return $this->hasMany(Weapon::class, "type_id");
+        return $this->hasMany(Weapon::class, "id", "id");
     }
 }

@@ -9,7 +9,7 @@ class MainCharacterController extends Controller
 {
     public function index()
     {
-        return MainCharacter::with("chaoticEvents")->get();
+        return MainCharacter::with("chaoticEvents")->orderBy("main_character_id", "asc")->get();
     }
 
     public function store(Request $request)
