@@ -40,4 +40,11 @@ class PlayerController extends Controller
     {
         //
     }
+
+    public function opponentNames(Request $request)
+    {
+        $nameToExclude = $request->input('playerName');
+
+        return Player::select('name')->where('name', '!=', $nameToExclude)->get();
+    }
 }
