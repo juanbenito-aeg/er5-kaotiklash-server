@@ -23,8 +23,14 @@ class PlayerController extends Controller
             'password' => 'required|string|min:6',
         ];
         
+        $emailTakenErrorMessage = '';
+        if ($request->preferred_language === 'eng') {
+            $emailTakenErrorMessage = 'The email address has already been taken';
+        } else {
+            $emailTakenErrorMessage = 'Posta elektronikoa erabiltzen ari da';
+        }
         $messages = [
-            'email_address.unique' => 'The email address has already been taken',
+            'email_address.unique' => $emailTakenErrorMessage,
         ];
 
         $validator = Validator::make($input, $rules, $messages);
@@ -40,7 +46,12 @@ class PlayerController extends Controller
         } else {
             Player::create($request->all());
     
-            $responseMessage = 'Registration successful';
+            if ($request->preferred_language === 'eng') {
+                $responseMessage = 'Registration successful';
+            } else {
+                $responseMessage = 'Izen-ematea ondo egin da';
+            }
+
             $responseStatusCode = 201;
         }
 
@@ -58,11 +69,6 @@ class PlayerController extends Controller
         $player->update($request->all());
 
         return $player;
-    }
-
-    public function destroy(string $id)
-    {
-        //
     }
 
     public function opponentNames(Request $request)
@@ -83,10 +89,27 @@ class PlayerController extends Controller
         ->where('password', $request->password)
         ->first();
 
+        $responseData = ['message' => []];
+        $responseStatusCode = -1;
+
         if ($player) {
-            return response()->json(['message' => 'Login successful', 'player' => $player], 200);
+            $responseData['message'] = ['Login successful', 'Saio-hasiera arrakastatsua'];
+
+            $responseData['player'] = $player;
+
+            $responseStatusCode = 200;
         } else {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            $responseData['message'] = ['Invalid credentials', 'Sarbide-datu baliogabeak'];
+
+            $responseStatusCode = 401;
         }
+
+        if ($request->preferred_language === 'eng') {
+            $responseData['message'] = $responseData['message'][0];
+        } else {
+            $responseData['message'] = $responseData['message'][1];
+        }
+
+        return response()->json($responseData, $responseStatusCode);
     }
 }
