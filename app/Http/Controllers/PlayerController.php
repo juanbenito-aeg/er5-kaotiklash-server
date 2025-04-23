@@ -18,7 +18,7 @@ class PlayerController extends Controller
         $input = $request->all();
         
         $rules = [
-            'name' => 'required|string|max:50',
+            'name' => 'required|string|max:14',
             'email_address' => 'required|string|email|max:254|unique:players,email_address',
             'password' => 'required|string|min:6',
         ];
