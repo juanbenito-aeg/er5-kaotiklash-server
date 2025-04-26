@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\PlayerStats;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class PlayerStatsController extends Controller
 {
