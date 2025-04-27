@@ -14,10 +14,7 @@ class PlayerStatsController extends Controller
 
     public function store(Request $request)
     {
-        $input = $request->all();
-        
         PlayerStats::create($request->all());
-
     }
 
     public function show(string $id)
@@ -30,7 +27,6 @@ class PlayerStatsController extends Controller
         $playerStats = PlayerStats::findOrFail($id);
         $playerStats->delete();
 
-        return response()->json(['message' => 'Stats deleted successfully'], 200);
+        return response()->json(['message' => 'Stats successfully deleted'], 200);
     }
-
 }
