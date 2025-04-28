@@ -15,7 +15,7 @@ class PlayerStats extends Model
         "player_2",
         "winner",
         "date",
-        "duration",
+        "duration_in_minutes",
         "played_rounds",
         "joseph_appeared",
         "player_1_minions_killed",
