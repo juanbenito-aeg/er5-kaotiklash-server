@@ -27,4 +27,19 @@ class PlayerStats extends Model
         "player_1_used_cards",
         "player_2_used_cards",
     ];
+
+    public function player1(): BelongsTo
+    {
+        return $this->belongsTo(Player::class,"player_1",  "player_id");
+    }
+
+    public function player2(): BelongsTo
+    {
+        return $this->belongsTo(Player::class,"player_2",  "player_id");
+    }
+
+    public function winnerPlayer(): BelongsTo
+    {
+        return $this->belongsTo(Player::class,"winner",  "player_id");
+    }
 }
