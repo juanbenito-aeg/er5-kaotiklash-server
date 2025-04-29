@@ -70,7 +70,7 @@ class PlayerStatsController extends Controller
         $totalJosephAppeared = $josephAppearedInP1 + $josephAppearedInP2;
 
         if ($totalJosephAppeared == 0) {
-            return response()->json(['message' => 'Joseph did not appear in any game'], 400);
+            return response()->json(['message' => 'Joseph did not appear in any game']);
         }
 
         return response()->json($totalJosephAppeared, 200);
