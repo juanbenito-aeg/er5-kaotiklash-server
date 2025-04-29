@@ -9,7 +9,7 @@ class PlayerStatsController extends Controller
 {
     public function index()
     {
-        return PlayerStats::all();
+        return PlayerStats::with(["player_1", "player_2", "winner"])->get();
     }
 
     public function store(Request $request)

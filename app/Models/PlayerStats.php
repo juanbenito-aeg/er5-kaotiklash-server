@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PlayerStats extends Model
 {
@@ -28,17 +29,17 @@ class PlayerStats extends Model
         "player_2_used_cards",
     ];
 
-    public function player1(): BelongsTo
+    public function player_1(): BelongsTo
     {
         return $this->belongsTo(Player::class,"player_1",  "player_id");
     }
 
-    public function player2(): BelongsTo
+    public function player_2(): BelongsTo
     {
         return $this->belongsTo(Player::class,"player_2",  "player_id");
     }
 
-    public function winnerPlayer(): BelongsTo
+    public function winner(): BelongsTo
     {
         return $this->belongsTo(Player::class,"winner",  "player_id");
     }
