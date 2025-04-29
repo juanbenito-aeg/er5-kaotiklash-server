@@ -22,11 +22,11 @@ class PlayerStatsController extends Controller
         return PlayerStats::findOrFail($id);
     }
 
-    public function getTotalMatches(Request $request)
+    public function getTotalMatches($id)
     {
 
-        $totalMatchesInP1 = PlayerStats::where('player_1', $request)->count();
-        $totalMatchesInP2 = PlayerStats::where('player_2', $request)->count();
+        $totalMatchesInP1 = PlayerStats::where('player_1', $id)->count();
+        $totalMatchesInP2 = PlayerStats::where('player_2', $id)->count();
         $totalMatches = $totalMatchesInP1 + $totalMatchesInP2;
     
         if ($totalMatches == 0) {
@@ -36,10 +36,10 @@ class PlayerStatsController extends Controller
         return response()->json($totalMatches, 200);
     }
     
-    public function getWinnedMatches(Request $request)
+    public function getWinnedMatches($id)
     {
 
-        $winnedMatches = PlayerStats::where('winner', $request)->count();
+        $winnedMatches = PlayerStats::where('winner', $id)->count();
     
         if ($winnedMatches == 0) {
             return response()->json(['message' => 'No winned matches found']);
@@ -48,11 +48,11 @@ class PlayerStatsController extends Controller
         return response()->json($winnedMatches, 200);
     }
     
-    public function getTotalPlayedRounds(Request $request)
+    public function getTotalPlayedRounds($id)
     {
 
-        $playedRoundsAsP1 = PlayerStats::where('player_1', $request)->sum('played_rounds');
-        $playedRoundsAsP2 = PlayerStats::where('player_2', $request)->sum('played_rounds');
+        $playedRoundsAsP1 = PlayerStats::where('player_1', $id)->sum('played_rounds');
+        $playedRoundsAsP2 = PlayerStats::where('player_2', $id)->sum('played_rounds');
         $totalPlayedRounds = $playedRoundsAsP1 + $playedRoundsAsP2;
 
         if ($totalPlayedRounds == 0) {
@@ -62,11 +62,11 @@ class PlayerStatsController extends Controller
         return response()->json($totalPlayedRounds, 200);
     }
 
-    public function getJosephAppeared(Request $request)
+    public function getJosephAppeared($id)
     {
 
-        $josephAppearedInP1 = PlayerStats::where('player_1', $request)->where('joseph_appeared', true)->count();
-        $josephAppearedInP2 = PlayerStats::where('player_2', $request)->where('joseph_appeared', true)->count();
+        $josephAppearedInP1 = PlayerStats::where('player_1', $id)->where('joseph_appeared', true)->count();
+        $josephAppearedInP2 = PlayerStats::where('player_2', $id)->where('joseph_appeared', true)->count();
         $totalJosephAppeared = $josephAppearedInP1 + $josephAppearedInP2;
 
         if ($totalJosephAppeared == 0) {
@@ -76,11 +76,11 @@ class PlayerStatsController extends Controller
         return response()->json($totalJosephAppeared, 200);
     }
 
-    public function getTotalMinionsKilled(Request $request)
+    public function getTotalMinionsKilled($id)
     {
 
-        $minionsKilledAsP1 = PlayerStats::where('player_1', $request)->sum('player_1_minions_killed');
-        $minionsKilledAsP2 = PlayerStats::where('player_2', $request)->sum('player_2_minions_killed');
+        $minionsKilledAsP1 = PlayerStats::where('player_1', $id)->sum('player_1_minions_killed');
+        $minionsKilledAsP2 = PlayerStats::where('player_2', $id)->sum('player_2_minions_killed');
         $totalMinionsKilled = $minionsKilledAsP1 + $minionsKilledAsP2;
 
         if ($totalMinionsKilled == 0) {
@@ -90,11 +90,11 @@ class PlayerStatsController extends Controller
         return response()->json($totalMinionsKilled, 200);
     }
 
-    public function getTotalFumbles(Request $request)
+    public function getTotalFumbles($id)
     {
 
-        $fumblesAsP1 = PlayerStats::where('player_1', $request)->sum('player_1_fumbles');
-        $fumblesAsP2 = PlayerStats::where('player_2', $request)->sum('player_2_fumbles');
+        $fumblesAsP1 = PlayerStats::where('player_1', $id)->sum('player_1_fumbles');
+        $fumblesAsP2 = PlayerStats::where('player_2', $id)->sum('player_2_fumbles');
         $totalFumbles = $fumblesAsP1 + $fumblesAsP2;
 
         if ($totalFumbles == 0) {
@@ -103,11 +103,11 @@ class PlayerStatsController extends Controller
         return response()->json($totalFumbles, 200);
     }
 
-    public function getTotalCriticalHits(Request $request)
+    public function getTotalCriticalHits($id)
     {
 
-        $critsAsP1 = PlayerStats::where('player_1', $request)->sum('player_1_critical_hits');
-        $critsAsP2 = PlayerStats::where('player_2', $request)->sum('player_2_critical_hits');
+        $critsAsP1 = PlayerStats::where('player_1', $id)->sum('player_1_critical_hits');
+        $critsAsP2 = PlayerStats::where('player_2', $id)->sum('player_2_critical_hits');
         $totalCrits = $critsAsP1 + $critsAsP2;
 
         if ($totalCrits == 0) {
@@ -116,16 +116,14 @@ class PlayerStatsController extends Controller
         return response()->json($totalCrits, 200);
     }
 
-    public function getTotalUsedCards(Request $request)
+    public function getTotalUsedCards($id)
     {
 
-        $usedCardsAsP1 = PlayerStats::where('player_1', $request)->sum('player_1_used_cards');
-        $usedCardsAsP2 = PlayerStats::where('player_2', $request)->sum('player_2_used_cards');
+        $usedCardsAsP1 = PlayerStats::where('player_1', $id)->sum('player_1_used_cards');
+        $usedCardsAsP2 = PlayerStats::where('player_2', $id)->sum('player_2_used_cards');
         $totalUsedCards = $usedCardsAsP1 + $usedCardsAsP2;
 
         return response()->json($totalUsedCards, 200);
     }
-
-
 
 }

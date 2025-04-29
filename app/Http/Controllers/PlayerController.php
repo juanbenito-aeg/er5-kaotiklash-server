@@ -71,11 +71,11 @@ class PlayerController extends Controller
         return $player;
     }
 
-    public function opponentNames(Request $request)
+    public function opponentsData(Request $request)
     {
-        $nameToExclude = $request->input('playerName');
-
-        return Player::select('name')->where('name', '!=', $nameToExclude)->get();
+        $idOfPlayerToExclude = $request->input('loggedInPlayerID');
+        
+        return Player::select('player_id','name')->where('player_id', '!=', $idOfPlayerToExclude)->get();
     }
 
     public function login(Request $request)
