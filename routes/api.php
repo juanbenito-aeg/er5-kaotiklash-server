@@ -15,6 +15,6 @@ Route::get("player_stats/total-fumbles", [PlayerStatsController::class, "getTota
 Route::get("player_stats/total-critical-hits", [PlayerStatsController::class, "getTotalCriticalHits"]);
 Route::get("player_stats/total-used-cards", [PlayerStatsController::class, "getTotalUsedCards"]);
 Route::apiResource("player_stats", PlayerStatsController::class);
-Route::post("players/opponent-names", [PlayerController::class, "opponentNames"]);
+Route::post("players/opponents-data", [PlayerController::class, "opponentsData"]);
 Route::post("login", [PlayerController::class, "login"]);
 Route::apiResource("players", PlayerController::class);
