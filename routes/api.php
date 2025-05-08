@@ -8,7 +8,7 @@ use App\Http\Controllers\PlayerController;
 Route::apiResource("cards", CardController::class);
 Route::get("player_stats/{id}/total-matches", [PlayerStatsController::class, "getTotalMatches"]);
 Route::get("player_stats/{id}/winned-matches", [PlayerStatsController::class, "getWinnedMatches"]);
-Route::get("player_stats/{id}/total-played-rounds", [PlayerStatsController::class, "getTotalPlayedRounds"]);
+Route::get("player_stats/{id}/total-played-turns", [PlayerStatsController::class, "getTotalPlayedTurns"]);
 Route::get("player_stats/{id}/joseph-appeared", [PlayerStatsController::class, "getJosephAppeared"]);
 Route::get("player_stats/{id}/total-minions-killed", [PlayerStatsController::class, "getTotalMinionsKilled"]);
 Route::get("player_stats/{id}/total-fumbles", [PlayerStatsController::class, "getTotalFumbles"]);

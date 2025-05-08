@@ -48,37 +48,37 @@ class PlayerStatsController extends Controller
         return response()->json($winnedMatches, 200);
     }
     
-    public function getTotalPlayedRounds($id)
+    public function getTotalPlayedTurns($id)
     {
-        $playedRoundsAsP1 = PlayerStats::where('player_1', $id)->sum('played_rounds');
-        $playedRoundsAsP2 = PlayerStats::where('player_2', $id)->sum('played_rounds');
-        $totalPlayedRounds = $playedRoundsAsP1 + $playedRoundsAsP2;
+        $playedTurnsAsP1 = PlayerStats::where('player_1', $id)->sum('played_turns');
+        $playedTurnsAsP2 = PlayerStats::where('player_2', $id)->sum('played_turns');
+        $totalPlayedTurns = $playedTurnsAsP1 + $playedTurnsAsP2;
 
-        if ($totalPlayedRounds == 0) {
-            return response()->json(['message' => 'No played rounds found']);
+        if ($totalPlayedTurns == 0) {
+            return response()->json(['message' => 'No played turns found']);
         }
 
-        $playedRounds = [];
+        $playedTurns = [];
 
         $gameIds = PlayerStats::where('player_1', $id)->orWhere('player_2', $id)->get(['id'])->toArray();
 
         for ($i = 0; $i < count($gameIds); $i++) {
-            $playedRoundsAsP1InGame = PlayerStats::where('id', $gameIds[$i])->where('player_1', $id)->sum('played_rounds');
-            $playedRoundsAsP2InGame = PlayerStats::where('id', $gameIds[$i])->where('player_2', $id)->sum('played_rounds');
+            $playedTurnsAsP1InGame = PlayerStats::where('id', $gameIds[$i])->where('player_1', $id)->sum('played_turns');
+            $playedTurnsAsP2InGame = PlayerStats::where('id', $gameIds[$i])->where('player_2', $id)->sum('played_turns');
 
-            array_push($playedRounds, $playedRoundsAsP1InGame + $playedRoundsAsP2InGame);
+            array_push($playedTurns, $playedTurnsAsP1InGame + $playedTurnsAsP2InGame);
         }
 
-        $averagePlayedRounds = $totalPlayedRounds / count($gameIds);
-        $averagePlayedRounds = round($averagePlayedRounds, 2);
+        $averagePlayedTurns = $totalPlayedTurns / count($gameIds);
+        $averagePlayedTurns = round($averagePlayedTurns, 2);
 
-        $playedRoundsData = [
-            'total_played_rounds' => $totalPlayedRounds,
-            'played_rounds' => $playedRounds,
-            'average_played_rounds' => $averagePlayedRounds,
+        $playedTurnsData = [
+            'total_played_turns' => $totalPlayedTurns,
+            'played_turns' => $playedTurns,
+            'average_played_turns' => $averagePlayedTurns,
         ];
 
-        return response()->json($playedRoundsData, 200);
+        return response()->json($playedTurnsData, 200);
     }
 
     public function getJosephAppeared($id)
