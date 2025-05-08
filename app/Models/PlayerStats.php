@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PlayerStats extends Model
 {
@@ -14,8 +15,6 @@ class PlayerStats extends Model
         "player_1",
         "player_2",
         "winner",
-        "date",
-        "duration_in_minutes",
         "played_rounds",
         "joseph_appeared",
         "player_1_minions_killed",
@@ -26,6 +25,8 @@ class PlayerStats extends Model
         "player_2_critical_hits",
         "player_1_used_cards",
         "player_2_used_cards",
+        "start_timestamp_in_ms",
+        "end_timestamp_in_ms",
     ];
 
     public function player1(): BelongsTo
