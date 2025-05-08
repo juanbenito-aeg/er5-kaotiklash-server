@@ -15,9 +15,7 @@ class PlayerStats extends Model
         "player_1",
         "player_2",
         "winner",
-        "date",
-        "duration_in_minutes",
-        "played_rounds",
+        "played_turns",
         "joseph_appeared",
         "player_1_minions_killed",
         "player_2_minions_killed",
@@ -27,6 +25,8 @@ class PlayerStats extends Model
         "player_2_critical_hits",
         "player_1_used_cards",
         "player_2_used_cards",
+        "start_timestamp_in_ms",
+        "end_timestamp_in_ms",
     ];
 
     public function player_1(): BelongsTo
