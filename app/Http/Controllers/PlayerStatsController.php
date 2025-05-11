@@ -22,30 +22,21 @@ class PlayerStatsController extends Controller
         return PlayerStats::findOrFail($id);
     }
 
-    public function getTotalMatches($id)
+    public function getWonAndLostMatches($id)
     {
-
-        $totalMatchesInP1 = PlayerStats::where('player_1', $id)->count();
-        $totalMatchesInP2 = PlayerStats::where('player_2', $id)->count();
-        $totalMatches = $totalMatchesInP1 + $totalMatchesInP2;
+        $totalMatchesAsP1 = PlayerStats::where('player_1', $id)->count();
+        $totalMatchesAsP2 = PlayerStats::where('player_2', $id)->count();
+        $totalMatches = $totalMatchesAsP1 + $totalMatchesAsP2;
     
-        if ($totalMatches == 0) {
-            return response()->json(['message' => 'No matches found']);
+        $wonMatches = 0;
+        $lostMatches = 0;
+        
+        if ($totalMatches > 0) {
+            $wonMatches += PlayerStats::where('winner', $id)->count();
+            $lostMatches = $totalMatches - $wonMatches;
         }
-    
-        return response()->json($totalMatches, 200);
-    }
-    
-    public function getWinnedMatches($id)
-    {
 
-        $winnedMatches = PlayerStats::where('winner', $id)->count();
-    
-        if ($winnedMatches == 0) {
-            return response()->json(['message' => 'No winned matches found']);
-        }
-    
-        return response()->json($winnedMatches, 200);
+        return response()->json(['won_matches' => $wonMatches, 'lost_matches' => $lostMatches], 200);
     }
     
     public function getTotalPlayedTurns($id)
