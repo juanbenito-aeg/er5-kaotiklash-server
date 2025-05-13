@@ -22,6 +22,18 @@ class PlayerStatsController extends Controller
         return PlayerStats::findOrFail($id);
     }
 
+    private function getGameStartAndEndTimestamps($gameID)
+    {
+        $gameStartAndEndTimestamps = PlayerStats::select('start_timestamp_in_ms', 'end_timestamp_in_ms')->where('id', $gameID)->first();
+
+        $gameStartAndEndTimestamps = [
+            $gameStartAndEndTimestamps->start_timestamp_in_ms,
+            $gameStartAndEndTimestamps->end_timestamp_in_ms,
+        ];
+
+        return $gameStartAndEndTimestamps;
+    }
+
     public function getWonAndLostMatches($id)
     {
         $totalMatchesAsP1 = PlayerStats::where('player_1', $id)->count();
@@ -51,13 +63,23 @@ class PlayerStatsController extends Controller
 
         $playedTurns = [];
 
-        $gameIds = PlayerStats::where('player_1', $id)->orWhere('player_2', $id)->get(['id'])->toArray();
+        $gameIds = PlayerStats::where('player_1', $id)->orWhere('player_2', $id)->orderBy('id')->get(['id'])->toArray();
 
         for ($i = 0; $i < count($gameIds); $i++) {
-            $playedTurnsAsP1InGame = PlayerStats::where('id', $gameIds[$i])->where('player_1', $id)->sum('played_turns');
-            $playedTurnsAsP2InGame = PlayerStats::where('id', $gameIds[$i])->where('player_2', $id)->sum('played_turns');
+            $currentGameID = $gameIds[$i];
 
-            array_push($playedTurns, $playedTurnsAsP1InGame + $playedTurnsAsP2InGame);
+            $playedTurnsAsP1InGame = PlayerStats::where('id', $currentGameID)->where('player_1', $id)->sum('played_turns');
+            $playedTurnsAsP2InGame = PlayerStats::where('id', $currentGameID)->where('player_2', $id)->sum('played_turns');
+
+            [$startTimestampInMS, $endTimestampInMS] = $this->getGameStartAndEndTimestamps($currentGameID);
+
+            $currentGameData = [
+                'num_of_turns' => $playedTurnsAsP1InGame + $playedTurnsAsP2InGame,
+                'start_timestamp_in_ms' => $startTimestampInMS,
+                'end_timestamp_in_ms' => $endTimestampInMS,
+            ];
+
+            array_push($playedTurns, $currentGameData);
         }
 
         $averagePlayedTurns = $totalPlayedTurns / count($gameIds);
@@ -74,7 +96,6 @@ class PlayerStatsController extends Controller
 
     public function getJosephAppeared($id)
     {
-
         $josephAppearedInP1 = PlayerStats::where('player_1', $id)->where('joseph_appeared', true)->count();
         $josephAppearedInP2 = PlayerStats::where('player_2', $id)->where('joseph_appeared', true)->count();
         $totalJosephAppeared = $josephAppearedInP1 + $josephAppearedInP2;
@@ -105,7 +126,6 @@ class PlayerStatsController extends Controller
 
     public function getTotalMinionsKilled($id)
     {
-
         $minionsKilledAsP1 = PlayerStats::where('player_1', $id)->sum('player_1_minions_killed');
         $minionsKilledAsP2 = PlayerStats::where('player_2', $id)->sum('player_2_minions_killed');
         $totalMinionsKilled = $minionsKilledAsP1 + $minionsKilledAsP2;
@@ -133,12 +153,12 @@ class PlayerStatsController extends Controller
             'minions_killed' => $minionsKilled,
             'average_minions_killed' => $averageMinionsKilled,
         ];
+
         return response()->json($minionsKilledData, 200);
     }
 
     public function getTotalFumbles($id)
     {
-
         $fumblesAsP1 = PlayerStats::where('player_1', $id)->sum('player_1_fumbles');
         $fumblesAsP2 = PlayerStats::where('player_2', $id)->sum('player_2_fumbles');
         $totalFumbles = $fumblesAsP1 + $fumblesAsP2;
@@ -149,13 +169,23 @@ class PlayerStatsController extends Controller
 
         $fumbles = [];
 
-        $gameIds = PlayerStats::where('player_1', $id)->orWhere('player_2', $id)->get(['id'])->toArray();
+        $gameIds = PlayerStats::where('player_1', $id)->orWhere('player_2', $id)->orderBy('id')->get(['id'])->toArray();
 
         for ($i = 0; $i < count($gameIds); $i++) {
-            $fumblesAsP1InGame = PlayerStats::where('id', $gameIds[$i])->where('player_1', $id)->sum('player_1_fumbles');
-            $fumblesAsP2InGame = PlayerStats::where('id', $gameIds[$i])->where('player_2', $id)->sum('player_2_fumbles');
+            $currentGameID = $gameIds[$i];
 
-            array_push($fumbles, $fumblesAsP1InGame + $fumblesAsP2InGame);
+            $fumblesAsP1InGame = PlayerStats::where('id', $currentGameID)->where('player_1', $id)->sum('player_1_fumbles');
+            $fumblesAsP2InGame = PlayerStats::where('id', $currentGameID)->where('player_2', $id)->sum('player_2_fumbles');
+
+            [$startTimestampInMS, $endTimestampInMS] = $this->getGameStartAndEndTimestamps($currentGameID);
+
+            $currentGameData = [
+                'num_of_fumbles' => $fumblesAsP1InGame + $fumblesAsP2InGame,
+                'start_timestamp_in_ms' => $startTimestampInMS,
+                'end_timestamp_in_ms' => $endTimestampInMS,
+            ];
+
+            array_push($fumbles, $currentGameData);
         }
 
         $averageFumbles = $totalFumbles / count($gameIds);
@@ -172,7 +202,6 @@ class PlayerStatsController extends Controller
 
     public function getTotalCriticalHits($id)
     {
-
         $critsAsP1 = PlayerStats::where('player_1', $id)->sum('player_1_critical_hits');
         $critsAsP2 = PlayerStats::where('player_2', $id)->sum('player_2_critical_hits');
         $totalCrits = $critsAsP1 + $critsAsP2;
@@ -183,13 +212,23 @@ class PlayerStatsController extends Controller
     
         $crits = [];
 
-        $gameIds = PlayerStats::where('player_1', $id)->orWhere('player_2', $id)->get(['id'])->toArray();
+        $gameIds = PlayerStats::where('player_1', $id)->orWhere('player_2', $id)->orderBy('id')->get(['id'])->toArray();
 
         for ($i = 0; $i < count($gameIds); $i++) {
-            $critsAsP1InGame = PlayerStats::where('id', $gameIds[$i])->where('player_1', $id)->sum('player_1_critical_hits');
-            $critsAsP2InGame = PlayerStats::where('id', $gameIds[$i])->where('player_2', $id)->sum('player_2_critical_hits');
+            $currentGameID = $gameIds[$i];
+            
+            $critsAsP1InGame = PlayerStats::where('id', $currentGameID)->where('player_1', $id)->sum('player_1_critical_hits');
+            $critsAsP2InGame = PlayerStats::where('id', $currentGameID)->where('player_2', $id)->sum('player_2_critical_hits');
 
-            array_push($crits, $critsAsP1InGame + $critsAsP2InGame);
+            [$startTimestampInMS, $endTimestampInMS] = $this->getGameStartAndEndTimestamps($currentGameID);
+
+            $currentGameData = [
+                'num_of_critical_hits' => $critsAsP1InGame + $critsAsP2InGame,
+                'start_timestamp_in_ms' => $startTimestampInMS,
+                'end_timestamp_in_ms' => $endTimestampInMS,
+            ];
+            
+            array_push($crits, $currentGameData);
         }
 
         $averageCrits = $totalCrits / count($gameIds);
@@ -206,7 +245,6 @@ class PlayerStatsController extends Controller
 
     public function getTotalUsedCards($id)
     {
-
         $usedCardsAsP1 = PlayerStats::where('player_1', $id)->sum('player_1_used_cards');
         $usedCardsAsP2 = PlayerStats::where('player_2', $id)->sum('player_2_used_cards');
         $totalUsedCards = $usedCardsAsP1 + $usedCardsAsP2;
@@ -217,13 +255,23 @@ class PlayerStatsController extends Controller
 
         $usedCards = [];
 
-        $gameIds = PlayerStats::where('player_1', $id)->orWhere('player_2', $id)->get(['id'])->toArray();
+        $gameIds = PlayerStats::where('player_1', $id)->orWhere('player_2', $id)->orderBy('id')->get(['id'])->toArray();
 
         for ($i = 0; $i < count($gameIds); $i++) {
-            $usedCardsAsP1InGame = PlayerStats::where('id', $gameIds[$i])->where('player_1', $id)->sum('player_1_used_cards');
-            $usedCardsAsP2InGame = PlayerStats::where('id', $gameIds[$i])->where('player_2', $id)->sum('player_2_used_cards');
+            $currentGameID = $gameIds[$i];
+            
+            $usedCardsAsP1InGame = PlayerStats::where('id', $currentGameID)->where('player_1', $id)->sum('player_1_used_cards');
+            $usedCardsAsP2InGame = PlayerStats::where('id', $currentGameID)->where('player_2', $id)->sum('player_2_used_cards');
 
-            array_push($usedCards, $usedCardsAsP1InGame + $usedCardsAsP2InGame);
+            [$startTimestampInMS, $endTimestampInMS] = $this->getGameStartAndEndTimestamps($currentGameID);
+
+            $currentGameData = [
+                'num_of_used_cards' => $usedCardsAsP1InGame + $usedCardsAsP2InGame,
+                'start_timestamp_in_ms' => $startTimestampInMS,
+                'end_timestamp_in_ms' => $endTimestampInMS,
+            ];
+            
+            array_push($usedCards, $currentGameData);
         }
 
         $averageUsedCards = $totalUsedCards / count($gameIds);
@@ -235,8 +283,6 @@ class PlayerStatsController extends Controller
             'average_used_cards' => $averageUsedCards,
         ];
 
-
         return response()->json($usedCardsData, 200);
     }
-
 }
