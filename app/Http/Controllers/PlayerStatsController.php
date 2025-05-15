@@ -40,6 +40,10 @@ class PlayerStatsController extends Controller
         $totalMatchesAsP2 = PlayerStats::where('player_2', $id)->count();
         $totalMatches = $totalMatchesAsP1 + $totalMatchesAsP2;
     
+        if ($totalMatches === 0) {
+            return response()->json(['message' => 'No matches found']);
+        }
+
         $wonMatches = 0;
         $lostMatches = 0;
         
